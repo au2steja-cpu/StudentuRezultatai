@@ -5,6 +5,9 @@
 #include <cmath>
 #include <limits>
 #include <iomanip>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -12,7 +15,7 @@ struct Studentas {
 	string vardas;
 	string pavarde;
 	vector<int> nd;
-	int egz;
+	int egz = 0;
 };
 
 float vidurkis(const vector<int>& nd) {
@@ -199,7 +202,7 @@ bool SkaitytiIsFailo(vector<Studentas>& studentai) {
 		s.vardas = vardas;
 		s.pavarde = pavarde;
 
-		for (int i = 0; i < ndKiekis; i + ) {
+		for (int i = 0; i < ndKiekis; i++) {
 			int pazymys;
 			if (!(file >> pazymys)) {
 				cout << "Nepavyko nuskaityti namu darbu pazymiu" << vardas << " " << pavarde << ".\n";
