@@ -213,7 +213,20 @@ bool SkaitytiIsFailo(vector<Studentas>& studentai) {
 			}
 			s.nd.push_back(pazymys);
 		}
-
+		if (!(file >> s.egz)) {
+			cout << "Nepavyko nuskaityti egzamino pazymio " << vardas << " " << pavarde << ".\n";
+			return false;
+		}
+		if (s.egz < 1 || s.egz > 10) {
+			cout << "Neteisingas egzamino pazymys " << s.egz << "\n";
+			cout << "Studentas: " << vardas << " " << pavarde << "\n";
+			cout << "Pazymiai turi buti tarp 1 ir 10.\n";
+			return false;
+		}
+		if (s.nd.empty()) {
+			cout << "Studentas neturi namu darbu rezultatu.\n";
+			return false;
+		}
 	}
 }
 
