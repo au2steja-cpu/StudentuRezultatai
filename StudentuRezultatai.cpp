@@ -227,7 +227,16 @@ bool SkaitytiIsFailo(vector<Studentas>& studentai) {
 			cout << "Studentas neturi namu darbu rezultatu.\n";
 			return false;
 		}
+		studentai.push_back(s);
 	}
+	file.close();
+
+	if (studentai.empty()) {
+		cout << "Failas tuscias arba neturi studentu duomenu.\n";
+		return false;
+	}
+	cout << studentai.size() << "studentai nuskaityti sekmingai.\n";
+	return true;
 }
 
 void Meniu() {
@@ -235,7 +244,8 @@ void Meniu() {
 	cout << "1. Rankiniu budu prideti studenta\n";
 	cout << "2. Generuoti studentus\n";
 	cout << "3. Spausdinti studentu rezultatus\n";
-	cout << "4. Baigti programa\n";
+	cout << "4. Skaityti studentus is failo\n";
+	cout << "5. Baigti programa\n";
 }
 
 int main() {
@@ -263,9 +273,20 @@ int main() {
 			spausdintiStudentuRezultatus(studentai);
 			break;
 		case 4:
-			cout << "Programa baigta. \n";
+			studentai.clear();
+
+			if (SkaitytiIsFailo(studentai)) {
+				cout << "Studentai nuskaityti sekmingai!\n";
+
+			}
+			else {
+				cout << "Nepavyko nuskaityti studentu is failo.\n";
+			}
+		case 5: 
+			cout << "Programa baigta.\n";
+			break;
 		}
 	}
-	while (pasirinkimas != 4);
+	while (pasirinkimas != 5);
 	return 0;
 }
