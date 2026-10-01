@@ -167,6 +167,56 @@ void spausdintiStudentuRezultatus(vector<Studentas>& studentai) {
 	}
 }
 
+bool SkaitytiIsFailo(vector<Studentas>& studentai) {
+	ifstream file("kursiokai.txt");
+
+	if (!file.is_open()) {
+		cout << "Nepavyko atidaryti failo 'kursiokai.txt'.\n";
+		return false;
+	}
+	string line;
+	getline(file, line);
+
+	stringstream headerStream(line);
+
+	string zodis;
+	int ndKiekis = 0;
+
+	while (headerStream >> zodis) {
+		if (zodis.rfind("ND", 0) == 0) {
+			ndKiekis++;
+		}
+	}
+	if (ndKiekis == 0) {
+		cout << "Namu darbu stulpeliu nerasta.\n";
+		return false;
+	}
+	string vardas;
+	string pavarde;
+
+	while (file >> vardas >> pavarde) {
+		Studentas s;
+		s.vardas = vardas;
+		s.pavarde = pavarde;
+
+		for (int i = 0; i < ndKiekis; i + ) {
+			int pazymys;
+			if (!(file >> pazymys)) {
+				cout << "Nepavyko nuskaityti namu darbu pazymiu" << vardas << " " << pavarde << ".\n";
+				return false;
+			}
+			if (pazymys < 1 || pazymys > 10) {
+				cout << "Neteisingas namu darbu pazymys " << pazymys << "\n";
+				cout << "Studentas: " << vardas << " " << pavarde << "\n";
+				cout << "Pazymiai turi buti tarp 1 ir 10.\n";
+				return false;
+			}
+			s.nd.push_back(pazymys);
+		}
+
+	}
+}
+
 void Meniu() {
 	cout << "\n--- Studentu Rezultatai ---\n";
 	cout << "1. Rankiniu budu prideti studenta\n";
