@@ -33,14 +33,26 @@ float mediana(vector<int> nd) {
 	if (nd.empty())
 		return 0.0f;
 	sort(nd.begin(), nd.end());
-	int n = nd.size();
+	size_t n = nd.size();
 
+	if (n % 2 == 0) { } // keep formatting consistent
+	// Use size_t to avoid narrowing conversion from size_t to int
 	if (n % 2 == 0) {
 		return (nd[(n / 2) - 1] + nd[n / 2]) / 2.0f;
 	}
 	else {
-		return nd[n / 2];
+		return static_cast<float>(nd[n / 2]);
 	}
+}
+
+float galutinisVidurkis(const Studentas& s) {
+	if (s.nd.empty()) return s.egz * 0.6f;
+	return (vidurkis(s.nd) * 0.4f) + (s.egz * 0.6f);
+}
+
+float galutinisMediana(const Studentas& s) {
+	if (s.nd.empty()) return s.egz * 0.6f;
+	return (mediana(s.nd) * 0.4f) + (s.egz * 0.6f);
 }
 
 int gautiRandomPazymi(int min, int max) {
@@ -103,8 +115,8 @@ void generuotiStudentus(vector<Studentas>& studentai) {
 
 	for (int i = 0; i < skaiciusStudentu; i++) {
 		Studentas s;
-		s.vardas = vardai[gautiRandomPazymi(0, vardai.size() - 1)];
-		s.pavarde = pavarde[gautiRandomPazymi(0, pavarde.size() - 1)];
+		s.vardas = vardai[gautiRandomPazymi(0, static_cast<int>(vardai.size() - 1))];
+		s.pavarde = pavarde[gautiRandomPazymi(0, static_cast<int>(pavarde.size() - 1))];
 
 		int ndKiekis = gautiRandomPazymi(1, 10);
 		for (int j = 0; j < ndKiekis; j++) {
@@ -259,8 +271,8 @@ int main() {
 		Meniu();
 		cout << "Jusu pasirinkimas:";
 
-		while (!(cin >> pasirinkimas) || pasirinkimas < 1 || pasirinkimas > 4) {
-			cout << "Neteisingai! Iveskite skaiciu tarp 1 ir 4: ";
+		while (!(cin >> pasirinkimas) || pasirinkimas < 1 || pasirinkimas > 5) {
+			cout << "Neteisingai! Iveskite skaiciu tarp 1 ir 5: ";
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		}
@@ -284,7 +296,7 @@ int main() {
 			}
 			else {
 				cout << "Nepavyko nuskaityti studentu is failo.\n";
-			}
+			}break;
 		case 5: 
 			cout << "Programa baigta.\n";
 			break;
