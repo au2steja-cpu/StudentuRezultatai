@@ -27,11 +27,11 @@ int main() {
 
     std::cout << std::fixed << std::setprecision(3);
 
-    std::cout << "Pagal ką rūšiuoti išvesties failus?\n"
-        << "[0] - Vardą\n"
-        << "[1] - Pavardę\n"
-        << "[2] - Galutinį balą\n";
-    auto rusiuoti = static_cast<Rusiuoti>(ivestiSkaiciu("Pasirinkite programos režimą: ", 0, 2));
+    std::cout << "Pagal ka rusiuoti isvesties failus?\n"
+        << "[0] - Varda\n"
+        << "[1] - Pavarde\n"
+        << "[2] - Galutini bala\n";
+    auto rusiuoti = static_cast<Rusiuoti>(ivestiSkaiciu("Pasirinkite programos rezima: ", 0, 2));
 
 
     if (!arFailaiEgzistuoja(MINFAILAS, MAXFAILAS) or taipArNe("Ar generuoti naujus failus? [y/n]")) {
@@ -39,9 +39,9 @@ int main() {
         for (int i = MINFAILAS; i <= MAXFAILAS; i *= 10) {
             Timer t;
             generuotiFaila(i);
-            std::cout << "  Generavimas užtruko: " << t.elapsed() << " s\n";
+            std::cout << "  Generavimas uztruko: " << t.elapsed() << " s\n";
         }
-        std::cout << "Visų failų generavimas užtruko: " << visasGeneravimas.elapsed() << " s\n\n";
+        std::cout << "Visu failu generavimas uztruko: " << visasGeneravimas.elapsed() << " s\n\n";
     }
     std::vector<Rezultatai> visi;
     for (int i = MINFAILAS; i <= MAXFAILAS; i *= 10) {
@@ -65,12 +65,12 @@ int main() {
                 skaiciuotiGalutini(st);
             }
             rezultatai.galutiniai.push_back(t.elapsed());
-            std::cout << "  Galutinių skaičiavimas: " << rezultatai.galutiniai[j] << " s\n";
+            std::cout << "  Galutiniu skaiciavimas: " << rezultatai.galutiniai[j] << " s\n";
 
             t.reset();
             rusiuotiStudentus(grupe, rusiuoti);
             rezultatai.rusiavimai.push_back(t.elapsed());
-            std::cout << "  Rūšiavimas: " << rezultatai.rusiavimai[j] << " s\n";
+            std::cout << "  Rusiavimas: " << rezultatai.rusiavimai[j] << " s\n";
 
             t.reset();
             std::vector<Studentas> nuskriaustukai, kietukai;
@@ -79,17 +79,17 @@ int main() {
             }
             grupe.clear();
             rezultatai.dalijimai.push_back(t.elapsed());
-            std::cout << "  Dalijimas į dvi grupes: " << rezultatai.dalijimai[j] << " s\n";
+            std::cout << "  Dalijimas i dvi grupes: " << rezultatai.dalijimai[j] << " s\n";
 
             t.reset();
             isvestiStudentus(nuskriaustukai, failoPavadinimas("nuskriaustukai", i));
             rezultatai.isvedimaiNuskriaustuku.push_back(t.elapsed());
-            std::cout << "  Nuskriaustukų išvedimas: " << rezultatai.isvedimaiNuskriaustuku[j] << " s\n";
+            std::cout << "  Nuskriaustuku isvedimas: " << rezultatai.isvedimaiNuskriaustuku[j] << " s\n";
 
             t.reset();
             isvestiStudentus(kietukai, failoPavadinimas("kietukai", i));
             rezultatai.isvedimaiKietuku.push_back(t.elapsed());
-            std::cout << "  Kietukų išvedimas: " << rezultatai.isvedimaiKietuku[j] << " s\n";
+            std::cout << "  Kietuku isvedimas: " << rezultatai.isvedimaiKietuku[j] << " s\n";
             rezultatai.bendri.push_back(apdorojimas.elapsed());
             std::cout << "  Viso apdorojimas: " << rezultatai.bendri[j] << " s\n\n";
         }
