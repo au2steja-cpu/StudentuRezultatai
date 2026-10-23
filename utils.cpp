@@ -32,10 +32,10 @@ size_t utf8Ilgis(const std::string& tekstas) {
 }
 
 int utf8Plotis(const std::string& tekstas) {
-    return static_cast<int>(PLOTIS + tekstas.size() - utf8Ilgis(tekstas));
+    return static_cast<int>(plotis + tekstas.size() - utf8Ilgis(tekstas));
 }
 
-int ivestiSk(const string& klausimas, int nuo, int iki) {
+int ivestiSkaiciu(const string& klausimas, int nuo, int iki) {
     string eilute;
     std::cout << klausimas;
     while (std::getline(std::cin, eilute)) {
@@ -44,7 +44,7 @@ int ivestiSk(const string& klausimas, int nuo, int iki) {
             std::cout << "Įvesta netinkama reikšmė (ne skaičius arba per didelis skaičius), bandykite vėl.\n";
         }
         else if (sk < nuo || sk > iki) {
-            if (iki == BE_RIBOS) {
+            if (iki == be_ribos) {
                 std::cout << "Skaičius turi būti ne mažesnis nei " << nuo << ".\n";
             }
             else {

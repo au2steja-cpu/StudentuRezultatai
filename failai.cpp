@@ -22,7 +22,7 @@ namespace {
 		out << std::setw(plotis) << "Galutinis" << "|\n";
 	}
 
-	void rastiStudenta(std::ostream& out, const Studentas& s) {
+	void rasytiStudenta(std::ostream& out, const Studentas& s) {
 		out << std::left << std::setw(utf8Plotis(s.vardas)) << s.vardas << "|";
 		out << std::setw(utf8Plotis(s.pavarde)) << s.pavarde << "|";
 		out << std::right << std::setw(plotis) << s.galutinis << "|\n";
@@ -62,7 +62,7 @@ void generuotiFaila(const int n) {
 	}
 }
 
-void nuskaitytiStudentus(vectos<Studentas>& grupe, const string& filename) {
+void nuskaitytiStudentus(vector<Studentas>& grupe, const string& filename) {
 	std::ifstream ins(filename);
 	if (!ins) throw std::runtime_error("Nepavyko atidaryti failo " + filename);
 

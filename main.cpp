@@ -1,4 +1,4 @@
-#include <iomanip>
+﻿#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -31,7 +31,7 @@ int main() {
         << "[0] - Vardą\n"
         << "[1] - Pavardę\n"
         << "[2] - Galutinį balą\n";
-    auto rusiuoti = static_cast<Rusiuoti>(ivestiSk("Pasirinkite programos režimą: ", 0, 2));
+    auto rusiuoti = static_cast<Rusiuoti>(ivestiSkaiciu("Pasirinkite programos režimą: ", 0, 2));
 
 
     if (!arFailaiEgzistuoja(MINFAILAS, MAXFAILAS) or taipArNe("Ar generuoti naujus failus? [y/n]")) {
@@ -75,7 +75,7 @@ int main() {
             t.reset();
             std::vector<Studentas> nuskriaustukai, kietukai;
             for (Studentas& st : grupe) {
-                (st.galutinis < ISLAIKYMO_RIBA ? nuskriaustukai : kietukai).push_back(std::move(st));
+                (st.galutinis < IslaikymoRiba ? nuskriaustukai : kietukai).push_back(std::move(st));
             }
             grupe.clear();
             rezultatai.dalijimai.push_back(t.elapsed());

@@ -1,10 +1,11 @@
+#pragma once
 #include <string>
-#include <vecor>
+#include <vector>
 
 struct Rezultatai {
 	int dydis;
 	std::vector<double> nuskaitymai, galutiniai, rusiavimai, dalijimai,
-		isvedimaiNuskriaustuku, IsvedimaiKietuku, bendri;
+		isvedimaiNuskriaustuku, isvedimaiKietuku, bendri;
 };
 
-void spausdintiLentele(const std::string& filename, const std::_Adjacent_find_vectorized<Rezultatai>& visi);
+void spausdintiLentele(const std::string& filename, const std::vector<Rezultatai>& visi);

@@ -9,13 +9,13 @@ void skaiciuotiGalutini(Studentas& st) {
 }
 
 void rusiuotiStudentus(std::vector<Studentas>& grupe, Rusiuoti r) {
-    if (r == Rusiuoti::Varda) {
+    if (r == Rusiuoti::vardas) {
         std::sort(grupe.begin(), grupe.end(), [](const Studentas& a, const Studentas& b) {
             if (a.vardas != b.vardas)return a.vardas < b.vardas;
             if (a.pavarde != b.pavarde) return a.pavarde < b.pavarde;
             return a.galutinis < b.galutinis;            });
     }
-    else if (r == Rusiuoti::Pavarde) {
+    else if (r == Rusiuoti::pavarde) {
         std::sort(grupe.begin(), grupe.end(), [](const Studentas& a, const Studentas& b) {
             if (a.pavarde != b.pavarde) return a.pavarde < b.pavarde;
             if (a.vardas != b.vardas)return a.vardas < b.vardas;

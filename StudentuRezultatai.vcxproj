@@ -139,7 +139,19 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="failai.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="results.cpp" />
+    <ClCompile Include="studentas.cpp" />
     <ClCompile Include="StudentuRezultatai.cpp" />
+    <ClCompile Include="utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="failai.h" />
+    <ClInclude Include="results.h" />
+    <ClInclude Include="studentas.h" />
+    <ClInclude Include="timer.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

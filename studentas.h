@@ -1,3 +1,4 @@
+#pragma once
 #include <numeric>
 #include <string>
 #include <vector>
@@ -7,7 +8,7 @@ constexpr double IslaikymoRiba = 5.0;
 
 struct Studentas {
 	std::string vardas, pavarde;
-	std::vector<int> nd;
+	std::vector<int> paz;
 	int exam = 0;
 	double galutinis = 0.0;
 };
