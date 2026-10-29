@@ -1,5 +1,7 @@
+#include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <list>
 #include <string>
 #include <vector>
 #ifdef _WIN32
@@ -9,92 +11,62 @@
 #include <windows.h>
 #endif
 
+#include "benchmark.h"
 #include "failai.h"
+#include "ivestis.h"
+#include "results.h"
 #include "studentas.h"
 #include "timer.h"
 #include "utils.h"
-#include "results.h"
 
+namespace {
+	void testavimas(int maxFailas) {
+		constexpr int MINFAILAS = 1000;
+		constexpr int KARTAI = 5;
 
-int main() {
+		std::cout << "Pagal ka rusiuoti isvesties failus?\n"
+			<< "[0] - Varda\n[1] - Pavarde\n[2] - Galutini bala\n";
+		const auto rusiuoti = static_cast<Rusiuoti>(ivestiSkaiciu("Pasirinkimas: ", 0, 2));
+
+		if (!arFailaiEgzistuoja(MINFAILAS, maxFailas) || taipArNe("Ar generuoti naujus failus? [y/n] ")) {
+			Timer visas;
+			for (int i = MINFAILAS; i <= maxFailas; i *= 10) {
+				Timer t;
+				generuotiFaila(i);
+				std::cout << "  Generavimas uztruko: " << t.elapsed() << " s\n";
+			}
+			std::cout << "Visu failu generavimas uztruko: " << visas.elapsed() << " s\n\n";
+		}
+
+		std::vector<Rezultatai> rezVector, rezList;
+		for (int i = MINFAILAS; i <= maxFailas; i *= 10) {
+			rezVector.push_back(testuotiFaila<std::vector<Studentas>>(i, KARTAI, rusiuoti));
+			rezList.push_back(testuotiFaila<std::list<Studentas>>(i, KARTAI, rusiuoti));
+		}
+
+		std::ofstream out("rezultatai.md");
+		spausdintiLentele(out, "std::vector", rezVector);
+		spausdintiLentele(out, "std::list", rezList);
+		spausdintiPalyginima(out, rezVector, rezList);
+		std::cout << "\nRezultatų lentelės įrašytos į rezultatai.md\n";
+	}
+}
+
+int main(int argc, char* argv[]) {
 #ifdef _WIN32
-    SetConsoleOutputCP(CP_UTF8);
-    SetConsoleCP(CP_UTF8);
+	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleCP(CP_UTF8);
 #endif
-    constexpr int MINFAILAS = 1000;
-    constexpr int MAXFAILAS = 10000000;
-    constexpr int KARTAI = 5;
+	const int maxFailas = argc > 1 ? std::stoi(argv[1]) : 10000000;
+	std::cout << std::fixed << std::setprecision(3);
 
-    std::cout << std::fixed << std::setprecision(3);
-
-    std::cout << "Pagal ką rūšiuoti išvesties failus?\n"
-        << "[0] - Vardą\n"
-        << "[1] - Pavardę\n"
-        << "[2] - Galutinį balą\n";
-    auto rusiuoti = static_cast<Rusiuoti>(ivestiSk("Pasirinkite programos režimą: ", 0, 2));
-
-
-    if (!arFailaiEgzistuoja(MINFAILAS, MAXFAILAS) or taipArNe("Ar generuoti naujus failus? [y/n]")) {
-        Timer visasGeneravimas;
-        for (int i = MINFAILAS; i <= MAXFAILAS; i *= 10) {
-            Timer t;
-            generuotiFaila(i);
-            std::cout << "  Generavimas užtruko: " << t.elapsed() << " s\n";
-        }
-        std::cout << "Visų failų generavimas užtruko: " << visasGeneravimas.elapsed() << " s\n\n";
-    }
-    std::vector<Rezultatai> visi;
-    for (int i = MINFAILAS; i <= MAXFAILAS; i *= 10) {
-        Rezultatai rezultatai;
-        rezultatai.dydis = i;
-        const std::string pavadinimas = failoPavadinimas("kursiokai", i);
-        std::cout << "Apdorojamas failas " << pavadinimas << "\n";
-        for (int j = 0; j < KARTAI; j++) {
-            std::cout << j + 1 << "-oji iteracija\n";
-
-            Timer apdorojimas;
-            Timer t;
-
-            std::vector<Studentas> grupe;
-            nuskaitytiStudentus(grupe, pavadinimas);
-            rezultatai.nuskaitymai.push_back(t.elapsed());
-            std::cout << "  Nuskaitymas: " << rezultatai.nuskaitymai[j] << " s\n";
-
-            t.reset();
-            for (Studentas& st : grupe) {
-                skaiciuotiGalutini(st);
-            }
-            rezultatai.galutiniai.push_back(t.elapsed());
-            std::cout << "  Galutinių skaičiavimas: " << rezultatai.galutiniai[j] << " s\n";
-
-            t.reset();
-            rusiuotiStudentus(grupe, rusiuoti);
-            rezultatai.rusiavimai.push_back(t.elapsed());
-            std::cout << "  Rūšiavimas: " << rezultatai.rusiavimai[j] << " s\n";
-
-            t.reset();
-            std::vector<Studentas> nuskriaustukai, kietukai;
-            for (Studentas& st : grupe) {
-                (st.galutinis < ISLAIKYMO_RIBA ? nuskriaustukai : kietukai).push_back(std::move(st));
-            }
-            grupe.clear();
-            rezultatai.dalijimai.push_back(t.elapsed());
-            std::cout << "  Dalijimas į dvi grupes: " << rezultatai.dalijimai[j] << " s\n";
-
-            t.reset();
-            isvestiStudentus(nuskriaustukai, failoPavadinimas("nuskriaustukai", i));
-            rezultatai.isvedimaiNuskriaustuku.push_back(t.elapsed());
-            std::cout << "  Nuskriaustukų išvedimas: " << rezultatai.isvedimaiNuskriaustuku[j] << " s\n";
-
-            t.reset();
-            isvestiStudentus(kietukai, failoPavadinimas("kietukai", i));
-            rezultatai.isvedimaiKietuku.push_back(t.elapsed());
-            std::cout << "  Kietukų išvedimas: " << rezultatai.isvedimaiKietuku[j] << " s\n";
-            rezultatai.bendri.push_back(apdorojimas.elapsed());
-            std::cout << "  Viso apdorojimas: " << rezultatai.bendri[j] << " s\n\n";
-        }
-        visi.push_back(rezultatai);
-    }
-    std::string lentele = "lentele.txt";
-    spausdintiLentele(lentele, visi);
+	std::cout << "--- Studentu rezultatai v0.3 ---\n"
+		<< "[1] - Rankinis ivedimas (rodomi objektu atminties adresai)\n"
+		<< "[2] - Konteinerių testavimas (vector vs list)\n"
+		<< "[0] - Iseiti\n";
+	switch (ivestiSkaiciu("Pasirinkite programos rezima: ", 0, 2)) {
+	case 1: rankinisIvedimas(); break;
+	case 2: testavimas(maxFailas); break;
+	default: break;
+	}
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include <limits>
 #include <numeric>
 #include <string>
@@ -9,11 +10,8 @@ constexpr int be_ribos = std::numeric_limits<int>::max();
 constexpr int plotis = 20;
 
 size_t utf8Ilgis(const std::string& tekstas);
-
 int utf8Plotis(const std::string& tekstas);
-
 int ivestiSkaiciu(const std::string& klausimas, int nuo, int iki);
-
 bool taipArNe(const std::string& klausimas);
 
 template <typename T>

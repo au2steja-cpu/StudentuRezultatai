@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -139,7 +139,18 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="StudentuRezultatai.cpp" />
+    <ClCompile Include="failai.cpp" />`r`n    <ClCompile Include="manual.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="results.cpp" />
+    <ClCompile Include="studentas.cpp" />`r`n    <ClCompile Include="testai.cpp" />
+    <ClCompile Include="utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="failai.h" />`r`n    <ClInclude Include="manual.h" />`r`n    <ClInclude Include="nustatymai.h" />
+    <ClInclude Include="results.h" />
+    <ClInclude Include="studentas.h" />`r`n    <ClInclude Include="testai.h" />
+    <ClInclude Include="timer.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
